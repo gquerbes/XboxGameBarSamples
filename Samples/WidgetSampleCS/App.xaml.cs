@@ -83,7 +83,7 @@ namespace WidgetSampleCS
                         widgetArgs,
                         Window.Current.CoreWindow,
                         rootFrame);
-                    rootFrame.Navigate(typeof(Widget1));
+                    rootFrame.Navigate(typeof(Widget1), widget1);
 
                     Window.Current.Closed += Widget1Window_Closed;
 

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Gaming.XboxGameBar;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WidgetSampleCS.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,13 +24,34 @@ namespace WidgetSampleCS
     /// </summary>
     public sealed partial class Widget1 : Page
     {
+        private XboxGameBarWidget widget = null;
+        public WidgetViewModel ViewModel { get; set; }
+
         public Widget1()
         {
             this.InitializeComponent();
+            ViewModel = new WidgetViewModel();
+            DataContext = ViewModel;
         }
-        private void MyButton_Click(object sender, RoutedEventArgs e)
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            myButton.Content = "Clicked";
+            widget = e.Parameter as XboxGameBarWidget;
+            widget.RequestedOpacityChanged += Widget_RequestedOpacityChanged;
+
+        }
+
+        private async void Widget_RequestedOpacityChanged(XboxGameBarWidget sender, object args)
+        {
+            await StackPanel.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                SetBackgroundOpacity();
+            });
+        }
+
+        private void SetBackgroundOpacity()
+        {
+            this.Opacity = widget.RequestedOpacity;
         }
     }
 }
