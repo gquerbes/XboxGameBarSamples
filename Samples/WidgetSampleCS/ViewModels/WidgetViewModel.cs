@@ -18,24 +18,30 @@ namespace WidgetSampleCS.ViewModels
         }
 
         private SynchronizationContext _ctx;
-        private KrakenTickerResponse _cryptoTicker = null;
         KrakenService kraken = new KrakenService();
         CoinStatsService coinStats = new CoinStatsService();
-        //private List<string> krakenCoins = new List<string> {"ADA","BTC"};
+
+        public bool Online { get; set; }
+
         private Dictionary<string, string> omiValues;
         private Dictionary<string, string> adaValues;
         private Dictionary<string, string> btcValues;
 
-        public bool Online { get; set; }
 
         public string ADAPrice => $"ADA: {FormatCurrency(adaValues?["price"], "6")}";
         public string BTCPrice => $"BTC: {FormatCurrency(btcValues?["price"], "2")}";
         public string OMIPrice => $"OMI: {FormatCurrency(omiValues?["price"], "8")}";
 
-        public decimal ADAChange => adaValues == null ? 0 : decimal.Parse(adaValues?["change"]);
-        public decimal BTCChange => btcValues == null ? 0 : decimal.Parse(btcValues?["change"]);
+        public decimal ADAChange => adaValues == null ? 0 : CalculatePercentChange(adaValues["price"],adaValues["openPrice"]);
+        public decimal BTCChange => btcValues == null ? 0 : CalculatePercentChange(btcValues["price"],btcValues["openPrice"]);
         public decimal OMIChange => omiValues == null ? 0 : decimal.Parse(omiValues?["change"]);
 
+        /// <summary>
+        /// Calculate change in price for day. using current price and open price
+        /// </summary>
+        /// <param name="OpenPriceString"></param>
+        /// <param name="CurrentPriceString"></param>
+        /// <returns></returns>
         private decimal CalculatePercentChange(string OpenPriceString, string CurrentPriceString)
         {
             var didParseOpen = decimal.TryParse(OpenPriceString, out var openPrice);
@@ -48,6 +54,13 @@ namespace WidgetSampleCS.ViewModels
             return Math.Round((increase / openPrice) * 100, 2);
         }
 
+
+        /// <summary>
+        /// Format value into currency
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="decimalPlaces"></param>
+        /// <returns></returns>
         private string FormatCurrency(string value, string decimalPlaces)
         {
             var didParse = decimal.TryParse(value, out var val);
@@ -56,10 +69,10 @@ namespace WidgetSampleCS.ViewModels
 
         }
 
-
-
-
         
+        /// <summary>
+        /// update all ticker values
+        /// </summary>
         private async void UpdateTicker()
         {
             do
@@ -68,18 +81,16 @@ namespace WidgetSampleCS.ViewModels
                 {
                     //get coinstats coins
                     omiValues = await coinStats.GetTickerForCoin("ECOMI");
-                    adaValues = await coinStats.GetTickerForCoin("CARDANO");
-                    btcValues = await coinStats.GetTickerForCoin("BITCOIN");
+                    //get kraken values
+                    var x = await kraken.GetTickerForCoins(new List<string>() {"ADA","XXBTZ" });
+                    adaValues = x["ADA"];
+                    btcValues = x["XXBTZ"];
                     Online = true;
                 }
                 catch
                 {
                     Online = false;
                 }
-
-                
-                //get kraken coins
-                //_cryptoTicker = await kraken.GetTicker(krakenCoins);
                 //update view
                 _ctx.Post((state) => {
                     OnPropertyChanged(nameof(ADAPrice));

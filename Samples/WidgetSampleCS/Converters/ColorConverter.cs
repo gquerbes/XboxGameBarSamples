@@ -15,7 +15,7 @@ namespace WidgetSampleCS
         {
             if ((decimal)value > 0)
             {
-                return new SolidColorBrush(Colors.DarkGreen);
+                return new SolidColorBrush(Colors.GreenYellow);
             }
             return new SolidColorBrush(Colors.Red);
         }

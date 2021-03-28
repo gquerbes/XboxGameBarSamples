@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,35 +12,43 @@ namespace WidgetSampleCS.Services
     {
         private const string _baseURL = "https://api.kraken.com/0";
 
-        public async Task<string> GetTickerForCoin(string coin)
+        public async Task<Dictionary<string,Dictionary<string, string>>> GetTickerForCoins(List<string> coins)
         {
-
-            var url = $"{_baseURL}/public/Ticker?pair={coin}USD";
-            var result = await HttpClientService.Instance.GetAsync(url);
-
-            return result.ToString();
-        }
-
-
-        public async Task<KrakenTickerResponse> GetTicker(List<string> coins)
-        {
+            //build URL
             var pairs = string.Empty;
-            foreach(var coin in coins)
+            foreach (var coin in coins)
             {
-                pairs += $"{coin.ToUpper()}USD,";
+                if (!string.IsNullOrEmpty(pairs))
+                {
+                    pairs += ",";
+                }
+
+                pairs += $"{coin.ToUpper()}USD";
             }
             var url = $"{_baseURL}/public/Ticker?pair={pairs}";
 
+
             try
             {
-                var response = await HttpClientService.Instance.GetAsync("https://api.kraken.com/0/public/Ticker?pair=ADAUSD,BTCUSD");
+                var mainDictionary = new Dictionary<string, Dictionary<string, string>>();
+                //query endpoint
+                var response = await HttpClientService.Instance.GetAsync(url);
 
+                //sucess
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseJson = await response.Content.ReadAsStringAsync();
+                    var responseJson = JObject.Parse(await response.Content.ReadAsStringAsync());
 
-                    var value = JsonConvert.DeserializeObject<KrakenTickerResponse>(responseJson);
-                    return value;
+                    foreach(var coin in coins)
+                    {
+                        var valueDict = new Dictionary<string, string>();
+                        valueDict.Add("price", responseJson["result"][$"{coin}USD"]["c"].FirstOrDefault().ToString());
+                        valueDict.Add("openPrice", responseJson["result"][$"{coin}USD"]["o"].ToString());
+                        mainDictionary.Add(coin, valueDict);
+                    }
+
+
+                    return mainDictionary;
                 }
                 else
                 {
