@@ -21,19 +21,20 @@ namespace WidgetSampleCS.ViewModels
         private KrakenTickerResponse _cryptoTicker = null;
         KrakenService kraken = new KrakenService();
         CoinStatsService coinStats = new CoinStatsService();
-        private List<string> krakenCoins = new List<string> {"ADA","BTC"};
-
+        //private List<string> krakenCoins = new List<string> {"ADA","BTC"};
+        private Dictionary<string, string> omiValues;
+        private Dictionary<string, string> adaValues;
+        private Dictionary<string, string> btcValues;
 
         public bool Online { get; set; }
 
-        public string ADAPrice => $"ADA: {FormatCurrency(_cryptoTicker?.result.ADAUSD.c.FirstOrDefault(), "6")}";
-        public decimal ADAChange => CalculatePercentChange(_cryptoTicker?.result.ADAUSD.o, _cryptoTicker?.result.ADAUSD.c.FirstOrDefault());
-        public string BTCPrice => $"BTC: {FormatCurrency(_cryptoTicker?.result.XXBTZUSD.c.FirstOrDefault(), "2")}";
-        public decimal BTCChange => CalculatePercentChange(_cryptoTicker?.result.XXBTZUSD.o, _cryptoTicker?.result.XXBTZUSD.c.FirstOrDefault());
+        public string ADAPrice => $"ADA: {FormatCurrency(adaValues?["price"], "6")}";
+        public string BTCPrice => $"BTC: {FormatCurrency(btcValues?["price"], "2")}";
+        public string OMIPrice => $"OMI: {FormatCurrency(omiValues?["price"], "8")}";
 
-        private Dictionary<string,string> omi;
-        public string OMIPrice => $"OMI: {FormatCurrency(omi?["price"], "8")}";
-        public string OMIChange => $"{omi?["change"]}";
+        public decimal ADAChange => adaValues == null ? 0 : decimal.Parse(adaValues?["change"]);
+        public decimal BTCChange => btcValues == null ? 0 : decimal.Parse(btcValues?["change"]);
+        public decimal OMIChange => omiValues == null ? 0 : decimal.Parse(omiValues?["change"]);
 
         private decimal CalculatePercentChange(string OpenPriceString, string CurrentPriceString)
         {
@@ -63,10 +64,22 @@ namespace WidgetSampleCS.ViewModels
         {
             do
             {
-                //get coinstats coins
-                omi = await coinStats.GetTickerForCoin("ECOMI");
+                try
+                {
+                    //get coinstats coins
+                    omiValues = await coinStats.GetTickerForCoin("ECOMI");
+                    adaValues = await coinStats.GetTickerForCoin("CARDANO");
+                    btcValues = await coinStats.GetTickerForCoin("BITCOIN");
+                    Online = true;
+                }
+                catch
+                {
+                    Online = false;
+                }
+
+                
                 //get kraken coins
-                _cryptoTicker = await kraken.GetTicker(krakenCoins);
+                //_cryptoTicker = await kraken.GetTicker(krakenCoins);
                 //update view
                 _ctx.Post((state) => {
                     OnPropertyChanged(nameof(ADAPrice));
