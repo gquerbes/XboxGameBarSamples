@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WidgetSampleCS
+namespace WidgetSampleCS.Services
 {
         public class ADAUSD
         {
@@ -38,7 +38,7 @@ namespace WidgetSampleCS
             public XXBTZUSD XXBTZUSD { get; set; }
         }
 
-        public class TickerResponse
+        public class KrakenTickerResponse
         {
             public List<object> error { get; set; }
             public Result result { get; set; }

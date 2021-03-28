@@ -105,12 +105,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="ColorConverter.cs" />
     <Compile Include="HttpClientService.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TickerResponse.cs" />
+    <Compile Include="Services\CoinStatsService.cs" />
+    <Compile Include="Services\KrakenService.cs" />
+    <Compile Include="Services\KrakenTickerResponse.cs" />
     <Compile Include="ViewModels\WidgetViewModel.cs" />
     <Compile Include="Widget1.xaml.cs">
       <DependentUpon>Widget1.xaml</DependentUpon>

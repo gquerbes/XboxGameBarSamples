@@ -9,10 +9,20 @@ using System.Threading.Tasks;
 
 namespace WidgetSampleCS
 {
-    public class HttpClientService
+    public sealed class HttpClientService
     {
+
+        #region Sigleton
+        private static readonly Lazy<HttpClientService> Lazy = new Lazy<HttpClientService>(() => new HttpClientService());
+
+        public static HttpClientService Instance => Lazy.Value;
+        private HttpClientService() { }
+
+        #endregion Singleton
+
         private readonly HttpClient _Client = new HttpClient();
 
+   
 
         public async Task<HttpResponseMessage> GetAsync(string url, KeyValuePair<string, string>[] headers = null)
         {

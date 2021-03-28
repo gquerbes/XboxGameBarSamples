@@ -10,11 +10,13 @@
     mc:Ignorable="d">
     <Page.Resources>
         <local:ColorConverter x:Key="ColorConverter"/>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
 
     <Grid>
         <Grid x:Name="BackgroundGrid" />
-        <TextBlock Text="{x:Bind ViewModel.Title}"  HorizontalAlignment="Center" HorizontalTextAlignment="Center"/>
+
+        <TextBlock Text="🤚💎✋&#x0a; Crypto Tracker"  HorizontalAlignment="Center" HorizontalTextAlignment="Center"/>
 
 
         <StackPanel
@@ -32,13 +34,19 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Padding="15,0,0,5" Text="{x:Bind ViewModel.BTCPrice, Mode=OneWay}" Grid.Row="0" Grid.Column ="0"/>
                 <TextBlock Padding="0,0,15,0" Text="{x:Bind sys:String.Format('{0}%', ViewModel.BTCChange), Mode=OneWay}" Grid.Row="0" Grid.Column ="1" HorizontalAlignment="Right" Foreground="{x:Bind ViewModel.BTCChange, Mode=OneWay, Converter={StaticResource ColorConverter}}"/>
                 <TextBlock Padding="15,0,0,5" Text="{x:Bind ViewModel.ADAPrice, Mode=OneWay}" Grid.Row="1" Grid.Column ="0" />
                 <TextBlock Padding="0,0,15,0" Text="{x:Bind sys:String.Format('{0}%', ViewModel.ADAChange), Mode=OneWay}" Grid.Row="1" Grid.Column ="1" HorizontalTextAlignment="Right" Foreground="{x:Bind ViewModel.ADAChange, Mode=OneWay, Converter={StaticResource ColorConverter}}"/>
+                <TextBlock Padding="15,0,0,5" Text="{x:Bind ViewModel.OMIPrice, Mode=OneWay}" Grid.Row="2" Grid.Column ="0" />
+                <TextBlock Padding="0,0,15,0" Text="{x:Bind sys:String.Format('{0}%', ViewModel.OMIChange), Mode=OneWay}" Grid.Row="2" Grid.Column ="1" HorizontalTextAlignment="Right" Foreground="{x:Bind ViewModel.ADAChange, Mode=OneWay, Converter={StaticResource ColorConverter}}"/>
+                <TextBlock Text="Offline" Foreground="Red"  Visibility="{x:Bind ViewModel.Online, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"  Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
             </Grid>
             
         </StackPanel>
+        
     </Grid>
 </Page>

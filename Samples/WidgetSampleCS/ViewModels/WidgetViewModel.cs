@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Runtime.CompilerServices;
 using System.Globalization;
+using WidgetSampleCS.Services;
+using System.Collections.Generic;
 
 namespace WidgetSampleCS.ViewModels
 {
@@ -16,21 +14,26 @@ namespace WidgetSampleCS.ViewModels
         public WidgetViewModel()
         {
             _ctx = SynchronizationContext.Current;
-            httpClient = new HttpClientService();
             UpdateTicker();
         }
 
         private SynchronizationContext _ctx;
-        private TickerResponse _cryptoTicker = null;
-        HttpClientService httpClient = null;
+        private KrakenTickerResponse _cryptoTicker = null;
+        KrakenService kraken = new KrakenService();
+        CoinStatsService coinStats = new CoinStatsService();
+        private List<string> krakenCoins = new List<string> {"ADA","BTC"};
 
-        public string Title => "🤚💎✋\nCrypto Tracker\n";
+
+        public bool Online { get; set; }
 
         public string ADAPrice => $"ADA: {FormatCurrency(_cryptoTicker?.result.ADAUSD.c.FirstOrDefault(), "6")}";
         public decimal ADAChange => CalculatePercentChange(_cryptoTicker?.result.ADAUSD.o, _cryptoTicker?.result.ADAUSD.c.FirstOrDefault());
         public string BTCPrice => $"BTC: {FormatCurrency(_cryptoTicker?.result.XXBTZUSD.c.FirstOrDefault(), "2")}";
         public decimal BTCChange => CalculatePercentChange(_cryptoTicker?.result.XXBTZUSD.o, _cryptoTicker?.result.XXBTZUSD.c.FirstOrDefault());
 
+        private Dictionary<string,string> omi;
+        public string OMIPrice => $"OMI: {FormatCurrency(omi?["price"], "8")}";
+        public string OMIChange => $"{omi?["change"]}";
 
         private decimal CalculatePercentChange(string OpenPriceString, string CurrentPriceString)
         {
@@ -52,9 +55,7 @@ namespace WidgetSampleCS.ViewModels
 
         }
 
-        public string GMEPrice => $"GME: 🚀🌙";
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
 
         
@@ -62,12 +63,19 @@ namespace WidgetSampleCS.ViewModels
         {
             do
             {
-             _cryptoTicker = await GetCryptoTicker();
+                //get coinstats coins
+                omi = await coinStats.GetTickerForCoin("ECOMI");
+                //get kraken coins
+                _cryptoTicker = await kraken.GetTicker(krakenCoins);
+                //update view
                 _ctx.Post((state) => {
                     OnPropertyChanged(nameof(ADAPrice));
                     OnPropertyChanged(nameof(ADAChange));
                     OnPropertyChanged(nameof(BTCChange));
                     OnPropertyChanged(nameof(BTCPrice));
+                    OnPropertyChanged(nameof(OMIPrice));
+                    OnPropertyChanged(nameof(OMIChange));
+                    OnPropertyChanged(nameof(Online));
 
                 }, null);
                 Thread.Sleep(1000 * 3);
@@ -76,34 +84,17 @@ namespace WidgetSampleCS.ViewModels
         
         }
 
-        private async Task<TickerResponse> GetCryptoTicker()
-        {
-            
-            var response = await httpClient.GetAsync("https://api.kraken.com/0/public/Ticker?pair=ADAUSD,BTCUSD");
 
-            if (response.IsSuccessStatusCode)
-            {
-                var responseJson = await response.Content.ReadAsStringAsync();
 
-                var value = JsonConvert.DeserializeObject<TickerResponse>(responseJson);
-                return value;
-            }
-            else
-            {
-                throw new Exception();
-            }
+        #region Property Changed
 
-        }
-
-        private async Task GetStockTicker()
-        {
-
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             // Raise the PropertyChanged event, passing the name of the property whose value has changed.
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion Property Changed
     }
 }
