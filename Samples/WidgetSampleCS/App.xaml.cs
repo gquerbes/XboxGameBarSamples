@@ -23,7 +23,9 @@ namespace WidgetSampleCS
     /// </summary>
     sealed partial class App : Application
     {
-        private XboxGameBarWidget widget1 = null;
+        private XboxGameBarWidget CryptoWidget = null;
+        private XboxGameBarWidget WebViewWidget = null;
+
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -79,11 +81,17 @@ namespace WidgetSampleCS
                     Window.Current.Content = rootFrame;
 
                     // Create Game Bar widget object which bootstraps the connection with Game Bar
-                    widget1 = new XboxGameBarWidget(
+                    //CryptoWidget = new XboxGameBarWidget(
+                    //    widgetArgs,
+                    //    Window.Current.CoreWindow,
+                    //    rootFrame);
+                    //rootFrame.Navigate(typeof(CryptoTrackerWidget), CryptoWidget);
+
+                    WebViewWidget = new XboxGameBarWidget(
                         widgetArgs,
                         Window.Current.CoreWindow,
                         rootFrame);
-                    rootFrame.Navigate(typeof(Widget1), widget1);
+                    rootFrame.Navigate(typeof(WebViewWidget), WebViewWidget);
 
                     Window.Current.Closed += Widget1Window_Closed;
 
@@ -98,7 +106,8 @@ namespace WidgetSampleCS
 
         private void Widget1Window_Closed(object sender, Windows.UI.Core.CoreWindowEventArgs e)
         {
-            widget1 = null;
+            CryptoWidget = null;
+            WebViewWidget = null;
             Window.Current.Closed -= Widget1Window_Closed;
         }
 
@@ -169,7 +178,7 @@ namespace WidgetSampleCS
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
-            widget1 = null;
+            CryptoWidget = null;
 
             deferral.Complete();
         }

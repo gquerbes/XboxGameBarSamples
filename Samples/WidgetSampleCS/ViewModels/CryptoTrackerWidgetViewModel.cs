@@ -9,9 +9,9 @@ using System.Collections.Generic;
 
 namespace WidgetSampleCS.ViewModels
 {
-    public class WidgetViewModel : INotifyPropertyChanged
+    public class CryptoTrackerWidgetViewModel : INotifyPropertyChanged
     {
-        public WidgetViewModel()
+        public CryptoTrackerWidgetViewModel()
         {
             _ctx = SynchronizationContext.Current;
             UpdateTicker();

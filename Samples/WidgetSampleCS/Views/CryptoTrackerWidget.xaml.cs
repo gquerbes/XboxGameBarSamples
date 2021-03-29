@@ -22,15 +22,15 @@ namespace WidgetSampleCS
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Widget1 : Page
+    public sealed partial class CryptoTrackerWidget : Page
     {
         private XboxGameBarWidget widget = null;
-        public WidgetViewModel ViewModel { get; set; }
+        public CryptoTrackerWidgetViewModel ViewModel { get; set; }
 
-        public Widget1()
+        public CryptoTrackerWidget()
         {
             this.InitializeComponent();
-            ViewModel = new WidgetViewModel();
+            ViewModel = new CryptoTrackerWidgetViewModel();
             DataContext = ViewModel;
         }
 

@@ -108,15 +108,19 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ColorConverter.cs" />
     <Compile Include="Services\HttpClientService.cs" />
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="ViewModels\WebViewWidgetViewModel.cs" />
+    <Compile Include="Views\WebViewWidget.xaml.cs">
+      <DependentUpon>WebViewWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\CoinStatsService.cs" />
     <Compile Include="Services\KrakenService.cs" />
     <Compile Include="Services\KrakenTickerResponse.cs" />
-    <Compile Include="ViewModels\WidgetViewModel.cs" />
-    <Compile Include="Widget1.xaml.cs">
-      <DependentUpon>Widget1.xaml</DependentUpon>
+    <Compile Include="ViewModels\CryptoTrackerWidgetViewModel.cs" />
+    <Compile Include="Views\CryptoTrackerWidget.xaml.cs">
+      <DependentUpon>CryptoTrackerWidget.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -166,6 +170,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="CoinStatsScript.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -179,11 +186,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Views\WebViewWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Widget1.xaml">
+    <Page Include="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CryptoTrackerWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
