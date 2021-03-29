@@ -42,7 +42,7 @@ namespace WidgetSampleCS.Services
                     foreach(var coin in coins)
                     {
                         var valueDict = new Dictionary<string, string>();
-                        valueDict.Add("price", responseJson["result"][$"{coin}USD"]["c"].FirstOrDefault().ToString());
+                        valueDict.Add("price", responseJson["result"][$"{coin}USD"]["a"].FirstOrDefault().ToString());
                         valueDict.Add("openPrice", responseJson["result"][$"{coin}USD"]["o"].ToString());
                         mainDictionary.Add(coin, valueDict);
                     }
