@@ -17,7 +17,7 @@ namespace WidgetSampleCS
             {
                 return new SolidColorBrush(Colors.GreenYellow);
             }
-            return new SolidColorBrush(Colors.Red);
+            return new SolidColorBrush(Colors.OrangeRed);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
