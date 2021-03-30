@@ -15,6 +15,6 @@
 
 
 
-    <WebView Name="webview"/>
+    <WebView Name="webview" DefaultBackgroundColor="Transparent"/>
 
 </Page>

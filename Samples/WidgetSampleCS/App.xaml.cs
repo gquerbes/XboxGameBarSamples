@@ -81,11 +81,11 @@ namespace WidgetSampleCS
                     Window.Current.Content = rootFrame;
 
                     // Create Game Bar widget object which bootstraps the connection with Game Bar
-                    //CryptoWidget = new XboxGameBarWidget(
-                    //    widgetArgs,
-                    //    Window.Current.CoreWindow,
-                    //    rootFrame);
-                    //rootFrame.Navigate(typeof(CryptoTrackerWidget), CryptoWidget);
+                    CryptoWidget = new XboxGameBarWidget(
+                        widgetArgs,
+                        Window.Current.CoreWindow,
+                        rootFrame);
+                  //  rootFrame.Navigate(typeof(CryptoTrackerWidget), CryptoWidget);
 
                     WebViewWidget = new XboxGameBarWidget(
                         widgetArgs,

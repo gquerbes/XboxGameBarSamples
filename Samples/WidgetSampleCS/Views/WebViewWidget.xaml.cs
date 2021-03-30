@@ -39,7 +39,6 @@ namespace WidgetSampleCS
         {
             TextReader tr = new StreamReader(@"CoinStatsScript.txt");
             string text = tr.ReadToEnd();
-
             webview.NavigateToString(text);
         }
 
