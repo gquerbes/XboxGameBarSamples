@@ -16,7 +16,7 @@
 
     <StackPanel>
         <TextBlock Text="Enter Script Here"/>
-        <RichEditBox  x:Name="TextBox"/>
+        <RichEditBox  x:Name="TextBox" Height="300"/>
         <Button Click="DoneButton_Click" Content="Update"/>
     </StackPanel>
     

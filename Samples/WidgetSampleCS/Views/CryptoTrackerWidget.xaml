@@ -6,7 +6,7 @@
     xmlns:local="using:WidgetSampleCS"
      xmlns:sys="using:System"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="Transparent" 
+    Background="Gray" 
     mc:Ignorable="d">
     <Page.Resources>
         <local:ColorConverter x:Key="ColorConverter"/>
