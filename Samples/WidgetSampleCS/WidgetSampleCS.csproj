@@ -108,7 +108,11 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ColorConverter.cs" />
     <Compile Include="Services\HttpClientService.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\WebViewWidgetViewModel.cs" />
+    <Compile Include="Views\SettingsWidget.xaml.cs">
+      <DependentUpon>SettingsWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WebViewWidget.xaml.cs">
       <DependentUpon>WebViewWidget.xaml</DependentUpon>
     </Compile>
@@ -186,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\SettingsWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\WebViewWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
