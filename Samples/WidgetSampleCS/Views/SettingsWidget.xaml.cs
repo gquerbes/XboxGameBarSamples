@@ -32,6 +32,7 @@ namespace WidgetSampleCS
             this.InitializeComponent();
             ViewModel = new SettingsViewModel();
             DataContext = ViewModel;
+            TextBox.TextDocument.SetText(Windows.UI.Text.TextSetOptions.None, GlobalSettings.HTML);
         }
 
       

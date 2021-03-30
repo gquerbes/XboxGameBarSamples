@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using WidgetSampleCS.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -33,22 +34,33 @@ namespace WidgetSampleCS
             ViewModel = new WebViewWidgetViewModel();
             DataContext = ViewModel;
 
-            GlobalSettings.OnHTMLValueChanged += (() => ShowWebView());
         }
 
-        public async void ShowWebView()
-        {
-            var html = GlobalSettings.HTML;
-            if (string.IsNullOrEmpty(html))
-            {
-                html = "<h1>TEST</h1>";
-            }
+      
 
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            UpdateWebView();
+            GlobalSettings.OnHTMLValueChanged = (() => UpdateWebView());
+
+            return base.ArrangeOverride(finalSize);
+
+        }
+
+
+
+        protected override void PopulatePropertyInfoOverride(string propertyName, AnimationPropertyInfo animationPropertyInfo)
+        {
+            base.PopulatePropertyInfoOverride(propertyName, animationPropertyInfo);
+        }
+
+        public async void UpdateWebView()
+        {
            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                webview.NavigateToString(html);
-
+                webview.NavigateToString(GlobalSettings.HTML);
             });
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
