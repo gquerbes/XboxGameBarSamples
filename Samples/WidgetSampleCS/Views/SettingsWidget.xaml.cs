@@ -40,7 +40,7 @@ namespace WidgetSampleCS
         private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
             TextBox.TextDocument.GetText(Windows.UI.Text.TextGetOptions.None,  out string val);
-            GlobalSettings.html = val;
+            GlobalSettings.HTML = val;
         }
     }
 }

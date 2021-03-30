@@ -8,6 +8,19 @@ namespace WidgetSampleCS
 {
     public static class GlobalSettings
     {
-       public static string html { get; set; }
+        public delegate void HTMLValueChanged();
+
+        public static HTMLValueChanged OnHTMLValueChanged;
+
+        private static string _html;
+        public static string HTML
+        {
+            get => _html;
+            set
+            {
+                _html = value;
+                OnHTMLValueChanged?.DynamicInvoke();
+            }
+        }
     }
 }

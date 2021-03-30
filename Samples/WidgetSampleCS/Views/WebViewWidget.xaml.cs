@@ -32,17 +32,23 @@ namespace WidgetSampleCS
             this.InitializeComponent();
             ViewModel = new WebViewWidgetViewModel();
             DataContext = ViewModel;
+
+            GlobalSettings.OnHTMLValueChanged += (() => ShowWebView());
         }
 
-        public void ShowWebView()
+        public async void ShowWebView()
         {
-            var html = GlobalSettings.html;
+            var html = GlobalSettings.HTML;
             if (string.IsNullOrEmpty(html))
             {
                 html = "<h1>TEST</h1>";
             }
 
-            webview.NavigateToString(html);
+           await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                webview.NavigateToString(html);
+
+            });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -53,11 +59,7 @@ namespace WidgetSampleCS
 
         }
 
-        protected override void OnDoubleTapped(DoubleTappedRoutedEventArgs e)
-        {
-            base.OnDoubleTapped(e);
-            ShowWebView();
-        }
+     
 
         private async void Widget_SettingsClicked(XboxGameBarWidget sender, object args)
         {
