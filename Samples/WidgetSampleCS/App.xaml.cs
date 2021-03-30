@@ -25,6 +25,7 @@ namespace WidgetSampleCS
     {
         private XboxGameBarWidget CryptoWidget = null;
         private XboxGameBarWidget WebViewWidget = null;
+        private XboxGameBarWidget SettingsWidget = null;
 
 
         /// <summary>
@@ -100,7 +101,16 @@ namespace WidgetSampleCS
                           rootFrame.Navigate(typeof(CryptoTrackerWidget), CryptoWidget);
                         Window.Current.Closed += Widget1Window_Closed;
                     }
-
+                    else if(widgetArgs.AppExtensionId == "SettingsWidget")
+                    {
+                        // Create Game Bar widget object which bootstraps the connection with Game Bar
+                        SettingsWidget = new XboxGameBarWidget(
+                            widgetArgs,
+                            Window.Current.CoreWindow,
+                            rootFrame);
+                        rootFrame.Navigate(typeof(SettingsWidget), WebViewWidget);
+                        Window.Current.Closed += Widget1Window_Closed;
+                    }
 
 
                     Window.Current.Activate();
@@ -116,6 +126,7 @@ namespace WidgetSampleCS
         {
             CryptoWidget = null;
             WebViewWidget = null;
+            SettingsWidget = null;
             Window.Current.Closed -= Widget1Window_Closed;
         }
 

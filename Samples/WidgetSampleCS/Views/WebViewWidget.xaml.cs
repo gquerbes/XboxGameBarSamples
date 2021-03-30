@@ -32,21 +32,36 @@ namespace WidgetSampleCS
             this.InitializeComponent();
             ViewModel = new WebViewWidgetViewModel();
             DataContext = ViewModel;
-            ShowWebView();
         }
 
-        private void ShowWebView()
+        public void ShowWebView()
         {
-            TextReader tr = new StreamReader(@"CoinStatsScript.txt");
-            string text = tr.ReadToEnd();
-            webview.NavigateToString(text);
+            var html = GlobalSettings.html;
+            if (string.IsNullOrEmpty(html))
+            {
+                html = "<h1>TEST</h1>";
+            }
+
+            webview.NavigateToString(html);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             widget = e.Parameter as XboxGameBarWidget;
             widget.RequestedOpacityChanged += Widget_RequestedOpacityChanged;
+            widget.SettingsClicked += Widget_SettingsClicked;
 
+        }
+
+        protected override void OnDoubleTapped(DoubleTappedRoutedEventArgs e)
+        {
+            base.OnDoubleTapped(e);
+            ShowWebView();
+        }
+
+        private async void Widget_SettingsClicked(XboxGameBarWidget sender, object args)
+        {
+            await sender.ActivateSettingsAsync();
         }
 
         private async void Widget_RequestedOpacityChanged(XboxGameBarWidget sender, object args)

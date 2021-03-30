@@ -14,7 +14,11 @@
     </Page.Resources>
 
 
-
-    <TextBlock Text="YOYOYOY"/>
+    <StackPanel>
+        <TextBlock Text="Enter Script Here"/>
+        <RichEditBox  x:Name="TextBox"/>
+        <Button Click="DoneButton_Click"/>
+    </StackPanel>
+    
 
 </Page>

@@ -35,24 +35,12 @@ namespace WidgetSampleCS
         }
 
       
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            widget = e.Parameter as XboxGameBarWidget;
-            widget.RequestedOpacityChanged += Widget_RequestedOpacityChanged;
+    
 
-        }
-
-        private async void Widget_RequestedOpacityChanged(XboxGameBarWidget sender, object args)
+        private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
-            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                SetBackgroundOpacity();
-            });
-        }
-
-        private void SetBackgroundOpacity()
-        {
-            this.Opacity = widget.RequestedOpacity;
+            TextBox.TextDocument.GetText(Windows.UI.Text.TextGetOptions.None,  out string val);
+            GlobalSettings.html = val;
         }
     }
 }

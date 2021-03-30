@@ -44,13 +44,13 @@
       <Extensions>
         <uap3:Extension Category="windows.appExtension">
           <uap3:AppExtension Name="microsoft.gameBarUIExtension"
-                             Id="Widget1"
-                             DisplayName="Widget Sample CS"
+                             Id="CryptoTrackerWidget"
+                             DisplayName="Crypto Tracker"
                              Description="Widget Sample CS Description"
                              PublicFolder="GameBar">
             <uap3:Properties>
               <GameBarWidget Type="Standard">
-                <SettingsSupported AppExtensionId="settingsWidget" />
+                <SettingsSupported AppExtensionId="SettingsWidget" />
                 <HomeMenuVisible>true</HomeMenuVisible>
                 <PinningSupported>true</PinningSupported>
                 <Window>
@@ -70,7 +70,61 @@
               </GameBarWidget>
             </uap3:Properties>
           </uap3:AppExtension>
-                  
+        </uap3:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="microsoft.gameBarUIExtension"
+                             Id="WebViewWidget"
+                             DisplayName="Web View Widget"
+                             Description="Widget Sample CS Description"
+                             PublicFolder="GameBar">
+            <uap3:Properties>
+              <GameBarWidget Type="Standard">
+                <SettingsSupported AppExtensionId="SettingsWidget" />
+                <HomeMenuVisible>true</HomeMenuVisible>
+                <PinningSupported>true</PinningSupported>
+                <Window>
+                  <Size>
+                    <Height>300</Height>
+                    <Width>400</Width>
+                    <MinHeight>150</MinHeight>
+                    <MinWidth>200</MinWidth>
+                    <MaxHeight>350</MaxHeight>
+                    <MaxWidth>450</MaxWidth>
+                  </Size>
+                  <ResizeSupported>
+                    <Horizontal>true</Horizontal>
+                    <Vertical>true</Vertical>
+                  </ResizeSupported>
+                </Window>
+              </GameBarWidget>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="microsoft.gameBarUIExtension"
+                             Id="SettingsWidget"
+                             DisplayName="Settings"
+                             Description="Widget Sample CS Description"
+                             PublicFolder="GameBar">
+            <uap3:Properties>
+              <GameBarWidget Type="Settings">
+                <Window>
+                  <Size>
+                    <Height>300</Height>
+                    <Width>400</Width>
+                    <MinHeight>150</MinHeight>
+                    <MinWidth>200</MinWidth>
+                    <MaxHeight>350</MaxHeight>
+                    <MaxWidth>450</MaxWidth>
+                  </Size>
+                  <ResizeSupported>
+                    <Horizontal>true</Horizontal>
+                    <Vertical>true</Vertical>
+                  </ResizeSupported>
+                </Window>
+              </GameBarWidget>
+            </uap3:Properties>
+          </uap3:AppExtension>
         </uap3:Extension>
       </Extensions>
     </Application>
