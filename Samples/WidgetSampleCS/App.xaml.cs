@@ -80,20 +80,28 @@ namespace WidgetSampleCS
                     rootFrame.NavigationFailed += OnNavigationFailed;
                     Window.Current.Content = rootFrame;
 
-                    // Create Game Bar widget object which bootstraps the connection with Game Bar
-                    CryptoWidget = new XboxGameBarWidget(
-                        widgetArgs,
-                        Window.Current.CoreWindow,
-                        rootFrame);
-                  //  rootFrame.Navigate(typeof(CryptoTrackerWidget), CryptoWidget);
+                    if(widgetArgs.AppExtensionId == "WebViewWidget")
+                    {
+                        WebViewWidget = new XboxGameBarWidget(
+                       widgetArgs,
+                       Window.Current.CoreWindow,
+                       rootFrame);
+                        rootFrame.Navigate(typeof(WebViewWidget), WebViewWidget);
 
-                    WebViewWidget = new XboxGameBarWidget(
-                        widgetArgs,
-                        Window.Current.CoreWindow,
-                        rootFrame);
-                    rootFrame.Navigate(typeof(WebViewWidget), WebViewWidget);
+                        Window.Current.Closed += Widget1Window_Closed;
+                    }
+                    else if(widgetArgs.AppExtensionId == "CryptoTrackerWidget")
+                    {
+                        // Create Game Bar widget object which bootstraps the connection with Game Bar
+                        CryptoWidget = new XboxGameBarWidget(
+                            widgetArgs,
+                            Window.Current.CoreWindow,
+                            rootFrame);
+                          rootFrame.Navigate(typeof(CryptoTrackerWidget), CryptoWidget);
+                        Window.Current.Closed += Widget1Window_Closed;
+                    }
 
-                    Window.Current.Closed += Widget1Window_Closed;
+
 
                     Window.Current.Activate();
                 }
