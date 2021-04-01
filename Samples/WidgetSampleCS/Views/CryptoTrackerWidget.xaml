@@ -6,7 +6,7 @@
     xmlns:local="using:WidgetSampleCS"
      xmlns:sys="using:System"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="Gray" 
+    Background="Black" 
     mc:Ignorable="d">
     <Page.Resources>
         <local:ColorConverter x:Key="ColorConverter"/>
@@ -15,12 +15,12 @@
 
     <Grid>
         <Grid x:Name="BackgroundGrid" />
-        <TextBlock Text="🤚💎✋&#x0a;Crypto Tracker&#x0a;" FontWeight="Bold" HorizontalAlignment="Center" HorizontalTextAlignment="Center"/>
+        <TextBlock Text="🤚💎✋&#x0a;Crypto Tracker" FontWeight="Bold" HorizontalAlignment="Center" HorizontalTextAlignment="Center"/>
         <StackPanel
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
             Orientation="Vertical"
-            Padding="0,20,0,0"
+            Padding="0,5,0,0"
             x:Name="StackPanel">
             <Grid HorizontalAlignment="Stretch" >
                 <Grid.ColumnDefinitions>
@@ -28,7 +28,6 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>

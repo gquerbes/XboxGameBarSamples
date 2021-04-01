@@ -11,9 +11,17 @@ namespace WidgetSampleCS.ViewModels
     public class SettingsViewModel
     {
 
-        public string htmlCode { get; set; }
+        public bool AutoRefresh
+        {
+            get => WebViewSettings.AutoRefresh;
+            set => WebViewSettings.AutoRefresh = value;
+        }
 
-
+        public int RefreshInterval
+        {
+            get => WebViewSettings.RefreshInterval;
+            set => WebViewSettings.RefreshInterval = value;
+        }
 
 
         #region Property Changed

@@ -32,16 +32,21 @@ namespace WidgetSampleCS
             this.InitializeComponent();
             ViewModel = new SettingsViewModel();
             DataContext = ViewModel;
-            TextBox.TextDocument.SetText(Windows.UI.Text.TextSetOptions.None, GlobalSettings.HTML);
+            TextBox.TextDocument.SetText(Windows.UI.Text.TextSetOptions.None, WebViewSettings.HTML);
         }
 
       
     
-
+        /// <summary>
+        /// Handle done button clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
             TextBox.TextDocument.GetText(Windows.UI.Text.TextGetOptions.None,  out string val);
-            GlobalSettings.HTML = val;
+            WebViewSettings.HTML = val;
         }
+
     }
 }

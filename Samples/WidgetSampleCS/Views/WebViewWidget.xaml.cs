@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using System.Threading.Tasks;
 using WidgetSampleCS.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -34,44 +36,66 @@ namespace WidgetSampleCS
             ViewModel = new WebViewWidgetViewModel();
             DataContext = ViewModel;
 
-        }
-
-      
-
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            UpdateWebView();
-            GlobalSettings.OnHTMLValueChanged = (() => UpdateWebView());
-
-            return base.ArrangeOverride(finalSize);
+            //load webview on launch of widget
+            LoadWebView();
+            AutoUpdate();
+            
 
         }
 
-
-
-        protected override void PopulatePropertyInfoOverride(string propertyName, AnimationPropertyInfo animationPropertyInfo)
+        private async void AutoUpdate()
         {
-            base.PopulatePropertyInfoOverride(propertyName, animationPropertyInfo);
-        }
-
-        public async void UpdateWebView()
-        {
-           await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await Task.Run(() =>
             {
-                webview.NavigateToString(GlobalSettings.HTML);
+                do
+                {
+                    //wait for refresh interval period
+                    var refeshInterval = WebViewSettings.RefreshInterval > 0 ? WebViewSettings.RefreshInterval : 15;
+                    Thread.Sleep(refeshInterval * 1000);
+
+                    //auto refresh view if enabled
+                    if (WebViewSettings.AutoRefresh)
+                    {
+                        RefreshWebView();
+                    }
+
+                } while (true);
             });
+
+
+        }
+
+
+        private async void RefreshWebView()
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                webview.Refresh();
+            });
+        }
+
+
+        private async void LoadWebView()
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+             {
+                 webview.NavigateToString(WebViewSettings.HTML);
+             });
 
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             widget = e.Parameter as XboxGameBarWidget;
+            //handle opacity requests
             widget.RequestedOpacityChanged += Widget_RequestedOpacityChanged;
+            //tie in settings button event
             widget.SettingsClicked += Widget_SettingsClicked;
-
+            //register for changes in HTML
+            WebViewSettings.OnHTMLValueChanged = () => LoadWebView();
         }
 
-     
+
 
         private async void Widget_SettingsClicked(XboxGameBarWidget sender, object args)
         {

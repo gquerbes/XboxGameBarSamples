@@ -16,8 +16,11 @@
 
     <StackPanel>
         <TextBlock Text="Enter Script Here"/>
-        <RichEditBox  x:Name="TextBox" Height="300"/>
-        <Button Click="DoneButton_Click" Content="Update"/>
+        <RichEditBox  x:Name="TextBox" Height="150"/>
+        <Button Click="DoneButton_Click" Content="Save HTML"/>
+        <ToggleSwitch x:Name="Toggle" IsOn="{x:Bind ViewModel.AutoRefresh, Mode=TwoWay}"  Header="Auto Refresh" />
+        <TextBlock Text="Auto Update Interval (seconds)"/>
+        <TextBox Text="{x:Bind ViewModel.RefreshInterval, Mode=TwoWay}" IsEnabled="{x:Bind Toggle.IsOn, Mode=OneWay}" Width="75" HorizontalAlignment="Left"/>
     </StackPanel>
     
 
