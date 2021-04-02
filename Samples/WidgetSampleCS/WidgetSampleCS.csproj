@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
@@ -107,6 +107,7 @@
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ColorConverter.cs" />
+    <Compile Include="Converters\VisibilityInverter.cs" />
     <Compile Include="WebViewSettings.cs" />
     <Compile Include="Services\HttpClientService.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

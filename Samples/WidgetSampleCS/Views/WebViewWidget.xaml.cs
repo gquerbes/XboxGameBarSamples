@@ -36,12 +36,22 @@ namespace WidgetSampleCS
             ViewModel = new WebViewWidgetViewModel();
             DataContext = ViewModel;
 
+            //secondWebView.NavigateToString("<h1>HELLO WORLD</h1>");
+            //primaryWebView.NavigateToString("<h2>test<h2>");
             //load webview on launch of widget
-            LoadWebView();
+            LoadWebViews();
+            //init auto update
             AutoUpdate();
-            
+
+            primaryWebView.LoadCompleted += (x, y) =>
+            {
+                ToggleVisibilityWithDelay(3, Visibility.Visible);
+            };
+
 
         }
+
+
 
         private async void AutoUpdate()
         {
@@ -56,7 +66,7 @@ namespace WidgetSampleCS
                     //auto refresh view if enabled
                     if (WebViewSettings.AutoRefresh)
                     {
-                        RefreshWebView();
+                        RefreshWebView(primaryWebView);
                     }
 
                 } while (true);
@@ -66,20 +76,39 @@ namespace WidgetSampleCS
         }
 
 
-        private async void RefreshWebView()
+        private async void ToggleVisibilityWithDelay(int delay, Visibility visibility)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+            {
+                await Task.Delay(delay * 1000);
+                primaryWebView.Visibility = visibility;
+                RefreshWebView(secondWebView);
+
+            });
+        }
+
+
+        private async void RefreshWebView(WebView webview)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
+                if(webview == primaryWebView)
+                {
+                    primaryWebView.Visibility = Visibility.Collapsed;
+                }
                 webview.Refresh();
             });
         }
 
 
-        private async void LoadWebView()
+        private async void LoadWebViews()
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
              {
-                 webview.NavigateToString(WebViewSettings.HTML);
+                 //load primary
+                 primaryWebView.NavigateToString(WebViewSettings.HTML);
+                 //load secondary
+                 secondWebView.NavigateToString(WebViewSettings.HTML);
              });
 
         }
@@ -92,7 +121,9 @@ namespace WidgetSampleCS
             //tie in settings button event
             widget.SettingsClicked += Widget_SettingsClicked;
             //register for changes in HTML
-            WebViewSettings.OnHTMLValueChanged = () => LoadWebView();
+            WebViewSettings.OnHTMLValueChanged = () => LoadWebViews();
+
+         
         }
 
 
@@ -104,7 +135,7 @@ namespace WidgetSampleCS
 
         private async void Widget_RequestedOpacityChanged(XboxGameBarWidget sender, object args)
         {
-            await webview.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await primaryWebView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 SetBackgroundOpacity();
             });

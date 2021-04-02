@@ -8,14 +8,14 @@
   IgnorableNamespaces="uap uap3 mp">
 
   <Identity
-    Name="WidgetSampleCS"
+    Name="GabesWidgetUtility"
     Publisher="CN=Gabriel"
-    Version="0.0.1.0" />
+    Version="0.0.2.0" />
 
   <mp:PhoneIdentity PhoneProductId="4b9dee15-da50-4b0a-8337-9b84da542023" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>WidgetSampleCS</DisplayName>
+    <DisplayName>GabesWidgetUtility</DisplayName>
     <PublisherDisplayName>Microsoft Corporation</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -36,7 +36,7 @@
         DisplayName="Gabe&apos;s Widget Utility"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="WidgetSampleCS"
+        Description="Gabe&apos;s Widget Utility. Supports WebViews and Crypto Tracker"
         BackgroundColor="transparent"
         AppListEntry ="none">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
@@ -58,10 +58,6 @@
                   <Size>
                     <Height>300</Height>
                     <Width>400</Width>
-                    <MinHeight>150</MinHeight>
-                    <MinWidth>200</MinWidth>
-                    <MaxHeight>350</MaxHeight>
-                    <MaxWidth>450</MaxWidth>
                   </Size>
                   <ResizeSupported>
                     <Horizontal>true</Horizontal>
@@ -87,10 +83,6 @@
                   <Size>
                     <Height>300</Height>
                     <Width>400</Width>
-                    <MinHeight>150</MinHeight>
-                    <MinWidth>200</MinWidth>
-                    <MaxHeight>350</MaxHeight>
-                    <MaxWidth>450</MaxWidth>
                   </Size>
                   <ResizeSupported>
                     <Horizontal>true</Horizontal>
@@ -111,12 +103,11 @@
               <GameBarWidget Type="Settings">
                 <Window>
                   <Size>
-                    <Height>300</Height>
+                    <Height>500</Height>
                     <Width>400</Width>
-                    <MinHeight>150</MinHeight>
+                    <MinHeight>350</MinHeight>
                     <MinWidth>200</MinWidth>
-                    <MaxHeight>350</MaxHeight>
-                    <MaxWidth>450</MaxWidth>
+                   
                   </Size>
                   <ResizeSupported>
                     <Horizontal>true</Horizontal>
