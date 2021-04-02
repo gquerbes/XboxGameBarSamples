@@ -15,8 +15,8 @@
     </Page.Resources>
 
     <Grid Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <WebView Name="primaryWebView" DefaultBackgroundColor="Yellow" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" />
-        <WebView Name="secondWebView" DefaultBackgroundColor="Red"  Visibility="{x:Bind primaryWebView.Visibility, Mode=OneWay, Converter={StaticResource VisibilityInverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0"/>
+        <WebView Name="primaryWebView" DefaultBackgroundColor="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" />
+        <WebView Name="secondWebView" DefaultBackgroundColor="Transparent"  Visibility="{x:Bind primaryWebView.Visibility, Mode=OneWay, Converter={StaticResource VisibilityInverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0"/>
     </Grid>
     
 

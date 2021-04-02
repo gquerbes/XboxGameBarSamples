@@ -36,8 +36,6 @@ namespace WidgetSampleCS
             ViewModel = new WebViewWidgetViewModel();
             DataContext = ViewModel;
 
-            //secondWebView.NavigateToString("<h1>HELLO WORLD</h1>");
-            //primaryWebView.NavigateToString("<h2>test<h2>");
             //load webview on launch of widget
             LoadWebViews();
             //init auto update
@@ -45,7 +43,7 @@ namespace WidgetSampleCS
 
             primaryWebView.LoadCompleted += (x, y) =>
             {
-                ToggleVisibilityWithDelay(3, Visibility.Visible);
+                ToggleVisibilityWithDelay(8, Visibility.Visible);
             };
 
 
@@ -60,7 +58,7 @@ namespace WidgetSampleCS
                 do
                 {
                     //wait for refresh interval period
-                    var refeshInterval = WebViewSettings.RefreshInterval > 0 ? WebViewSettings.RefreshInterval : 15;
+                    var refeshInterval = WebViewSettings.RefreshInterval > 15 ? WebViewSettings.RefreshInterval : 15;
                     Thread.Sleep(refeshInterval * 1000);
 
                     //auto refresh view if enabled
@@ -105,10 +103,11 @@ namespace WidgetSampleCS
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
              {
+                 var html = WebViewSettings.HTML;
                  //load primary
-                 primaryWebView.NavigateToString(WebViewSettings.HTML);
+                 primaryWebView.NavigateToString(html);
                  //load secondary
-                 secondWebView.NavigateToString(WebViewSettings.HTML);
+                 secondWebView.NavigateToString(html);
              });
 
         }
