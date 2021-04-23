@@ -14,8 +14,8 @@ namespace WidgetSampleCS
         public static HTMLValueChanged OnHTMLValueChanged;
 
         private const string _autoRefreshSetting = "AUTO_REFRESH";
-        private const string _RefreshIntervalSetting = "REFRESH_INTERVAL";
-
+        private const string _refreshIntervalSetting = "REFRESH_INTERVAL";
+        private const string _htmlMarkup = "HTML_MARKUP";
 
         private static int? _refreshInterval;
         public static int RefreshInterval
@@ -26,7 +26,7 @@ namespace WidgetSampleCS
                 if (_refreshInterval == null)
                 {
                     //get from device settings
-                    var savedValue = (int?)ApplicationData.Current.LocalSettings.Values[_RefreshIntervalSetting];
+                    var savedValue = (int?)ApplicationData.Current.LocalSettings.Values[_refreshIntervalSetting];
 
                     _refreshInterval = savedValue;
 
@@ -45,7 +45,7 @@ namespace WidgetSampleCS
             {
                 if (value != _refreshInterval)
                 {
-                    ApplicationData.Current.LocalSettings.Values[_RefreshIntervalSetting] = value;
+                    ApplicationData.Current.LocalSettings.Values[_refreshIntervalSetting] = value;
                     _refreshInterval = value;
                 }
             }
@@ -94,33 +94,26 @@ namespace WidgetSampleCS
             {
                 if (string.IsNullOrEmpty(_html))
                 {
-                    try
+                    var savedValue = ApplicationData.Current.LocalSettings.Values[_htmlMarkup];
+
+                    if(savedValue == null)
                     {
-                        TextReader tr = new StreamReader(@"HTMLCode.txt");
-                        _html = tr.ReadToEnd();
-                        tr.Close();
+                        _html = $"<h1>Please configure settings<h1>";
                     }
-                    catch
+                    else
                     {
-                        _html = @"<h1>Unable to load data</h1>";
+                        _html = (string)savedValue;
                     }
                 }
                 return _html;
             }
             set
             {
-                try
+                if(value != _html)
                 {
-                    TextWriter tr = new StreamWriter(@"HTMLCode.txt");
-                    tr.Write(value);
-                    tr.Close();
+                    _html = value;
+                    OnHTMLValueChanged?.Invoke();
                 }
-                catch
-                {
-                    System.Diagnostics.Debug.WriteLine("could not write to file");
-                }
-                _html = value;
-                OnHTMLValueChanged?.Invoke();
             }
         }
     }

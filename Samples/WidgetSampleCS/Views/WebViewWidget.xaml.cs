@@ -88,14 +88,23 @@ namespace WidgetSampleCS
 
         private async void RefreshWebView(WebView webview)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            try
             {
-                if(webview == primaryWebView)
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    primaryWebView.Visibility = Visibility.Collapsed;
-                }
-                webview.Refresh();
-            });
+                    if (webview == primaryWebView)
+                    {
+                        primaryWebView.Visibility = Visibility.Collapsed;
+                    }
+                    webview.Refresh();
+                });
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                //something failed.
+            }
+           
         }
 
 
